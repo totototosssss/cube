@@ -79,44 +79,78 @@ document.addEventListener('DOMContentLoaded', () => {
         currentModeDisplay.textContent = selectedOption.text;
     }
 
-    function rotateMatrix(matrix, clockwise = true) {
-        const newMatrix = JSON.parse(JSON.stringify(matrix));
-        const n = newMatrix.length;
-        for (let i = 0; i < n / 2; i++) {
-            for (let j = i; j < n - i - 1; j++) {
+    function rotateFaceMatrix(matrix, clockwise = true) {
+        const n = matrix.length;
+        const newMatrix = Array(n).fill(null).map(() => Array(n).fill(null));
+        for (let r = 0; r < n; r++) {
+            for (let c = 0; c < n; c++) {
                 if (clockwise) {
-                    const temp = newMatrix[i][j];
-                    newMatrix[i][j] = newMatrix[n - 1 - j][i];
-                    newMatrix[n - 1 - j][i] = newMatrix[n - 1 - i][n - 1 - j];
-                    newMatrix[n - 1 - i][n - 1 - j] = newMatrix[j][n - 1 - i];
-                    newMatrix[j][n - 1 - i] = temp;
+                    newMatrix[c][n - 1 - r] = matrix[r][c];
                 } else {
-                    const temp = newMatrix[i][j];
-                    newMatrix[i][j] = newMatrix[j][n - 1 - i];
-                    newMatrix[j][n - 1 - i] = newMatrix[n - 1 - i][n - 1 - j];
-                    newMatrix[n - 1 - i][n - 1 - j] = newMatrix[n - 1 - j][i];
-                    newMatrix[n - 1 - j][i] = temp;
+                    newMatrix[n - 1 - c][r] = matrix[r][c];
                 }
             }
         }
         return newMatrix;
     }
-    
+        
     const operations = {
-        F: (cw) => { cubeState.F = rotateMatrix(cubeState.F, cw); let temp = cw ? [...cubeState.U[2]] : [...cubeState.U[2]].reverse(); if(cw){ for(let i=0;i<3;i++) cubeState.U[2][i]=cubeState.L[2-i][2]; for(let i=0;i<3;i++) cubeState.L[i][2]=cubeState.D[0][i]; for(let i=0;i<3;i++) cubeState.D[0][i]=cubeState.R[2-i][0]; for(let i=0;i<3;i++) cubeState.R[i][0]=temp[i]; } else { for(let i=0;i<3;i++) cubeState.U[2][i]=cubeState.R[i][0]; for(let i=0;i<3;i++) cubeState.R[i][0]=cubeState.D[0][2-i]; for(let i=0;i<3;i++) cubeState.D[0][i]=cubeState.L[i][2]; for(let i=0;i<3;i++) cubeState.L[i][2]=temp[i]; }},
-        U: (cw) => { cubeState.U = rotateMatrix(cubeState.U, cw); let temp = [...cubeState.F[0]]; if(cw){ cubeState.F[0]=[...cubeState.R[0]]; cubeState.R[0]=[...cubeState.B[0]]; cubeState.B[0]=[...cubeState.L[0]]; cubeState.L[0]=temp; } else { cubeState.F[0]=[...cubeState.L[0]]; cubeState.L[0]=[...cubeState.B[0]]; cubeState.B[0]=[...cubeState.R[0]]; cubeState.R[0]=temp; }},
-        R: (cw) => { cubeState.R = rotateMatrix(cubeState.R, cw); let temp = [cubeState.U[0][2],cubeState.U[1][2],cubeState.U[2][2]]; if(cw){ for(let i=0;i<3;i++) cubeState.U[i][2]=cubeState.F[i][2]; for(let i=0;i<3;i++) cubeState.F[i][2]=cubeState.D[i][2]; for(let i=0;i<3;i++) cubeState.D[i][2]=cubeState.B[2-i][0]; for(let i=0;i<3;i++) cubeState.B[2-i][0]=temp[i]; } else { for(let i=0;i<3;i++) cubeState.U[i][2]=cubeState.B[2-i][0]; for(let i=0;i<3;i++) cubeState.B[2-i][0]=cubeState.D[i][2]; for(let i=0;i<3;i++) cubeState.D[i][2]=cubeState.F[i][2]; for(let i=0;i<3;i++) cubeState.F[i][2]=temp[i]; }},
-        L: (cw) => { cubeState.L = rotateMatrix(cubeState.L, cw); let temp = [cubeState.U[0][0],cubeState.U[1][0],cubeState.U[2][0]]; if(cw){ for(let i=0;i<3;i++) cubeState.U[i][0]=cubeState.B[2-i][2]; for(let i=0;i<3;i++) cubeState.B[2-i][2]=cubeState.D[i][0]; for(let i=0;i<3;i++) cubeState.D[i][0]=cubeState.F[i][0]; for(let i=0;i<3;i++) cubeState.F[i][0]=temp[i]; } else { for(let i=0;i<3;i++) cubeState.U[i][0]=cubeState.F[i][0]; for(let i=0;i<3;i++) cubeState.F[i][0]=cubeState.D[i][0]; for(let i=0;i<3;i++) cubeState.D[i][0]=cubeState.B[2-i][2]; for(let i=0;i<3;i++) cubeState.B[2-i][2]=temp[i]; }},
-        B: (cw) => { cubeState.B = rotateMatrix(cubeState.B, cw); let temp = cw ? [...cubeState.U[0]] : [...cubeState.U[0]].reverse(); if(cw){ for(let i=0;i<3;i++) cubeState.U[0][i]=cubeState.R[i][2]; for(let i=0;i<3;i++) cubeState.R[i][2]=cubeState.D[2][2-i]; for(let i=0;i<3;i++) cubeState.D[2][i]=cubeState.L[2-i][0]; for(let i=0;i<3;i++) cubeState.L[i][0]=temp[i]; } else { for(let i=0;i<3;i++) cubeState.U[0][i]=cubeState.L[i][0]; for(let i=0;i<3;i++) cubeState.L[i][0]=cubeState.D[2][2-i]; for(let i=0;i<3;i++) cubeState.D[2][i]=cubeState.R[2-i][2]; for(let i=0;i<3;i++) cubeState.R[i][2]=temp[i]; }},
-        D: (cw) => { cubeState.D = rotateMatrix(cubeState.D, cw); let temp = [...cubeState.F[2]]; if(cw){ cubeState.F[2]=[...cubeState.L[2]]; cubeState.L[2]=[...cubeState.B[2]]; cubeState.B[2]=[...cubeState.R[2]]; cubeState.R[2]=temp; } else { cubeState.F[2]=[...cubeState.R[2]]; cubeState.R[2]=[...cubeState.B[2]]; cubeState.B[2]=[...cubeState.L[2]]; cubeState.L[2]=temp; }}
+        F: () => { 
+            cubeState.F = rotateFaceMatrix(cubeState.F, true);
+            const temp = [...cubeState.U[2]];
+            for(let i=0; i<3; i++) cubeState.U[2][i]   = cubeState.L[2-i][2];
+            for(let i=0; i<3; i++) cubeState.L[i][2]   = cubeState.D[0][i];
+            for(let i=0; i<3; i++) cubeState.D[0][i]   = cubeState.R[2-i][0];
+            for(let i=0; i<3; i++) cubeState.R[i][0]   = temp[i];
+        },
+        U: () => { 
+            cubeState.U = rotateFaceMatrix(cubeState.U, true);
+            const temp = [...cubeState.F[0]];
+            cubeState.F[0]=[...cubeState.R[0]]; cubeState.R[0]=[...cubeState.B[0]];
+            cubeState.B[0]=[...cubeState.L[0]]; cubeState.L[0]=temp;
+        },
+        R: () => { 
+            cubeState.R = rotateFaceMatrix(cubeState.R, true);
+            const temp = [cubeState.U[0][2],cubeState.U[1][2],cubeState.U[2][2]];
+            for(let i=0; i<3; i++) cubeState.U[i][2]    = cubeState.F[i][2];
+            for(let i=0; i<3; i++) cubeState.F[i][2]    = cubeState.D[i][2];
+            for(let i=0; i<3; i++) cubeState.D[i][2]    = cubeState.B[2-i][0];
+            for(let i=0; i<3; i++) cubeState.B[2-i][0]  = temp[i];
+        },
+        L: () => { 
+            cubeState.L = rotateFaceMatrix(cubeState.L, true);
+            const temp = [cubeState.U[0][0],cubeState.U[1][0],cubeState.U[2][0]];
+            for(let i=0; i<3; i++) cubeState.U[i][0]    = cubeState.B[2-i][2];
+            for(let i=0; i<3; i++) cubeState.B[2-i][2]  = cubeState.D[i][0];
+            for(let i=0; i<3; i++) cubeState.D[i][0]    = cubeState.F[i][0];
+            for(let i=0; i<3; i++) cubeState.F[i][0]    = temp[i];
+        },
+        B: () => { 
+            cubeState.B = rotateFaceMatrix(cubeState.B, true);
+            const temp = [...cubeState.U[0]];
+            for(let i=0; i<3; i++) cubeState.U[0][i]    = cubeState.R[i][2];
+            for(let i=0; i<3; i++) cubeState.R[i][2]    = cubeState.D[2][2-i];
+            for(let i=0; i<3; i++) cubeState.D[2][i]    = cubeState.L[2-i][0];
+            for(let i=0; i<3; i++) cubeState.L[i][0]    = temp[i];
+        },
+        D: () => { 
+            cubeState.D = rotateFaceMatrix(cubeState.D, true);
+            const temp = [...cubeState.F[2]];
+            cubeState.F[2]=[...cubeState.L[2]]; cubeState.L[2]=[...cubeState.B[2]];
+            cubeState.B[2]=[...cubeState.R[2]]; cubeState.R[2]=temp;
+        }
     };
 
     function applyRotationAndUpdate(move) {
         const [face, type] = move.split('_');
-        const clockwise = (type !== 'CCW');
         if (operations[face]) {
-             if (type === '2') { operations[face](true); operations[face](true); } 
-             else { operations[face](clockwise); }
+             if (type === '2') { 
+                operations[face](); operations[face]();
+            } else if (type === 'CCW') {
+                operations[face](); operations[face](); operations[face]();
+            } else { 
+                operations[face]();
+            }
         }
     }
 
@@ -225,8 +259,8 @@ document.addEventListener('DOMContentLoaded', () => {
             seedToUse = 0;
             for (let i = 0; i < currentSeed.length; i++) 
                 seedToUse = (seedToUse + currentSeed.charCodeAt(i) * (i + 1)) % 2147483647;
-            if(seedToUse <= 0) seedToUse += 2147483646;
-            if(seedToUse === 0) seedToUse = 1;
+            if(seedToUse <= 0) seedToUse += 2147483646; // Ensure positive for modulo
+            if(seedToUse === 0) seedToUse = 1; // Seed must not be 0 for LCG
         }
         prng_sRandom(seedToUse);
 
