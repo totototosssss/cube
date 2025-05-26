@@ -1,1 +1,107 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+                 Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; /* Apple風フォント指定 */
+    background-color: #f0f0f5; /* やや明るい背景 */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
 
+.game-container {
+    background-color: #ffffff; /* 本体は白ベース */
+    border-radius: 20px; /* 角丸で柔らかい印象 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* 奥行きを出す影 */
+    padding: 30px;
+    width: 400px; /* 仮の幅 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.cube-area {
+    display: flex;
+    gap: 20px;
+}
+
+.focus-face {
+    width: 240px; /* 仮のサイズ */
+    height: 240px;
+    background-color: #e0e0e0; /* 仮の面の色 */
+    border-radius: 10px;
+    display: grid; /* 面の中のセル表示用 */
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+    padding: 5px;
+}
+
+.focus-face .cell {
+    background-color: #ccc; /* 仮のセルの色 */
+    border-radius: 4px;
+}
+
+.minimap-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.minimap-face {
+    width: 60px; /* 仮のミニマップサイズ */
+    height: 60px;
+    background-color: #d0d0d0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer; /* タップできることを示唆 */
+}
+
+/* 各ミニマップに仮の色をつける (例) */
+#face-top { background-color: #ffeb3b; } /* Yellow */
+#face-left { background-color: #ff9800; } /* Orange */
+#face-right { background-color: #f44336; } /* Red */
+#face-bottom { background-color: #ffffff; border: 1px solid #ccc; color: #333} /* White */
+#face-back { background-color: #4caf50; } /* Green */
+/* 前面はフォーカス面にある想定 (例: Blue) */
+.focus-face { background-color: #2196f3; } /* Blue */
+
+
+.controls {
+    text-align: center;
+}
+
+.controls button {
+    background-color: #007aff; /* Appleの標準的な青 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.controls button:hover {
+    background-color: #005bb5;
+}
+
+.instructions {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #e9e9f0;
+    border-radius: 8px;
+    color: #444;
+}
