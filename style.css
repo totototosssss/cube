@@ -1,107 +1,300 @@
+:root {
+    --cube-face-size: 90px;
+    --cell-gap: 2.5px;
+    --face-gap: 5px;
+    --face-label-outer-size: 10px;
+    --face-label-inner-size: 13px;
+
+    --color-Y: #ffeb3b; 
+    --color-B: #2196f3; 
+    --color-G: #4caf50; 
+    --color-R: #f44336; 
+    --color-O: #ff9800;
+    --color-placeholder: #eceff1;
+    --cell-text-color: rgba(0,0,0,0.5);
+    --cell-text-color-on-dark: rgba(255,255,255,0.75);
+
+    --app-font: 'Inter', 'SF Pro Display', 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", 'Hiragino Sans', Meiryo;
+    --background-color: #f0f4f8; 
+    --card-background: #ffffff;
+    --panel-background: #f8fafc; 
+    --primary-text-color: #1a202c; 
+    --secondary-text-color: #718096; 
+    --accent-color: #6366f1; 
+    --accent-color-hover: #4f46e5; 
+    --button-text-color: #ffffff;
+    --border-color: #e2e8f0; 
+    --icon-color: var(--button-text-color); 
+
+    --border-radius-card: 20px; 
+    --border-radius-panel: 12px;
+    --border-radius-face: 8px;
+    --border-radius-button: 6px;
+    --border-radius-cell: 3px;
+    --border-radius-select: 6px;
+    --border-radius-input: 6px;
+
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.03);
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.04); 
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.05); 
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.07); 
+    --transition-fast: 0.18s;
+    --transition-normal: 0.28s;
+    --timing-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-                 Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; /* Apple風フォント指定 */
-    background-color: #f0f0f5; /* やや明るい背景 */
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    font-family: var(--app-font);
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
     margin: 0;
+    padding: 25px; 
+    min-height: 100vh;
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.game-container {
-    background-color: #ffffff; /* 本体は白ベース */
-    border-radius: 20px; /* 角丸で柔らかい印象 */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* 奥行きを出す影 */
-    padding: 30px;
-    width: 400px; /* 仮の幅 */
+.main-container {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 30px; 
+    width: 100%;
+    max-width: 1180px; 
+    background-color: var(--card-background);
+    border-radius: var(--border-radius-card);
+    box-shadow: var(--shadow-lg);
+    padding: 30px; 
+}
+
+.cube-display-area {
+    flex: 2.3; 
+    min-width: 380px; 
     display: flex;
     flex-direction: column;
-    gap: 20px;
-}
-
-.game-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.2em;
-    color: #555;
-}
-
-.cube-area {
-    display: flex;
-    gap: 20px;
-}
-
-.focus-face {
-    width: 240px; /* 仮のサイズ */
-    height: 240px;
-    background-color: #e0e0e0; /* 仮の面の色 */
-    border-radius: 10px;
-    display: grid; /* 面の中のセル表示用 */
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 5px;
-    padding: 5px;
-}
-
-.focus-face .cell {
-    background-color: #ccc; /* 仮のセルの色 */
-    border-radius: 4px;
-}
-
-.minimap-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.minimap-face {
-    width: 60px; /* 仮のミニマップサイズ */
-    height: 60px;
-    background-color: #d0d0d0;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer; /* タップできることを示唆 */
 }
 
-/* 各ミニマップに仮の色をつける (例) */
-#face-top { background-color: #ffeb3b; } /* Yellow */
-#face-left { background-color: #ff9800; } /* Orange */
-#face-right { background-color: #f44336; } /* Red */
-#face-bottom { background-color: #ffffff; border: 1px solid #ccc; color: #333} /* White */
-#face-back { background-color: #4caf50; } /* Green */
-/* 前面はフォーカス面にある想定 (例: Blue) */
-.focus-face { background-color: #2196f3; } /* Blue */
-
-
-.controls {
-    text-align: center;
+.controls-area {
+    flex: 1; 
+    min-width: 260px; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
 }
 
-.controls button {
-    background-color: #007aff; /* Appleの標準的な青 */
-    color: white;
+.game-header { width: 100%; margin-bottom: 20px; text-align: center; }
+.game-header h1 { font-size: 30px; font-weight: 800; margin: 0 0 12px 0; letter-spacing: -0.8px; }
+.game-info { display: flex; justify-content: center; gap: 25px; font-size: 15.5px; color: var(--secondary-text-color); font-weight: 500; }
+.info-item span { font-weight: 700; color: var(--primary-text-color); }
+
+.settings-panel, .main-controls-panel {
+    background-color: var(--panel-background);
+    padding: 20px; 
+    border-radius: var(--border-radius-panel);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+.settings-panel { display: flex; flex-direction: column; gap: 18px; }
+.settings-group { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; width: 100%; }
+.settings-group label { font-size: 14px; font-weight: 600; color: var(--primary-text-color); }
+.app-select, #seed-input {
+    font-family: var(--app-font);
+    padding: 11px 14px; 
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-select);
+    font-size: 14.5px;
+    background-color: var(--card-background);
+    width: 100%; 
+    transition: border-color var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+}
+.app-select:focus, #seed-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3.5px rgba(var(--accent-color), 0.2);
+}
+
+.cube-area-wrapper { margin-bottom: 20px; }
+.cube-unfolded-area {
+    display: grid;
+    grid-template-columns: repeat(4, var(--cube-face-size));
+    grid-template-rows: repeat(3, calc(var(--cube-face-size) + var(--face-label-outer-size) * 1.7));
+    gap: var(--face-gap);
+    justify-content: center; align-items: center;
+}
+.face-container { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+.face-label-outer { font-size: var(--face-label-outer-size); color: var(--secondary-text-color); margin-bottom: 4px; text-align: center; font-weight: 500; line-height: 1.25; }
+.face {
+    width: var(--cube-face-size); height: var(--cube-face-size);
+    background-color: #fdfdff;
+    border-radius: var(--border-radius-face);
+    box-shadow: var(--shadow-sm), inset 0 0 3px rgba(0,0,0,0.02); 
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
+    gap: var(--cell-gap); padding: var(--cell-gap);
+    transition: transform var(--transition-fast) var(--timing-ease), box-shadow var(--transition-fast) var(--timing-ease);
+}
+.face.active-rotate { transform: scale(0.96); box-shadow: inset 0 1px 4px rgba(0,0,0,0.15), var(--shadow-md); }
+.face:hover { transform: translateY(-2px) scale(1.01); box-shadow: var(--shadow-md); }
+
+#face-container-U { grid-area: 1 / 2 / 2 / 3; } #face-container-L { grid-area: 2 / 1 / 3 / 2; }
+#face-container-F { grid-area: 2 / 2 / 3 / 3; } #face-container-R { grid-area: 2 / 3 / 3 / 4; }
+#face-container-B { grid-area: 2 / 4 / 3 / 5; } #face-container-D { grid-area: 3 / 2 / 4 / 3; }
+.face-placeholder { visibility: hidden; }
+
+.cell {
+    background-color: var(--color-placeholder);
+    border-radius: var(--border-radius-cell);
+    transition: background-color var(--transition-normal) ease, transform var(--transition-fast) var(--timing-ease), background-image var(--transition-normal) ease;
+    display: flex; justify-content: center; align-items: center;
+    font-size: var(--face-label-inner-size);
+    font-weight: 800; 
+    color: var(--cell-text-color);
+    user-select: none;
+    box-shadow: inset 0 0 1.5px rgba(0,0,0,0.08);
+    background-image: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(0,0,0,0.03));
+    background-size: 100% 100%; /* Ensure gradient covers cell if image not set */
+}
+.cell.center-cell { opacity: 0.9; }
+.cell:hover { transform: scale(1.16); z-index: 10; box-shadow: var(--shadow-md); }
+
+.cell-image-W {
+    background-image: url('shiro.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid #e0e0e0; /* Optional: border for white image cells */
+}
+.cell-image-W .cell-face-id { color: var(--cell-text-color); } /* Ensure label is visible on image */
+
+.color-Y { background-color: var(--color-Y); } .color-B { background-color: var(--color-B); }
+.color-G { background-color: var(--color-G); } .color-R { background-color: var(--color-R); }
+.color-O { background-color: var(--color-O); }
+.color-B .cell-face-id, .color-G .cell-face-id, .color-R .cell-face-id, .color-O .cell-face-id { color: var(--cell-text-color-on-dark); }
+.color-Y .cell-face-id { color: var(--cell-text-color); }
+
+.main-controls-panel h3 {
+    font-size: 19px; font-weight: 700; 
+    margin: 0 0 18px 0; text-align: center;
+    letter-spacing: -0.3px;
+}
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); 
+    gap: 15px; 
+    margin-bottom: 0; /* No margin if no other buttons below */
+}
+.face-control-group {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px;
+    padding: 14px;
+    background-color: var(--card-background); 
+    border-radius: var(--border-radius-panel); 
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-xs);
+    transition: box-shadow var(--transition-fast) ease;
+}
+.face-control-group:hover { box-shadow: var(--shadow-sm); }
+.face-control-group-label { font-size: 14.5px; font-weight: 600; color: var(--primary-text-color); }
+.face-control-buttons { display: flex; gap: 10px; }
+
+.app-button, .control-button-sm {
+    font-family: var(--app-font);
+    background-color: var(--accent-color);
+    color: var(--button-text-color);
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 1em;
+    padding: 10px 12px; 
+    border-radius: var(--border-radius-button);
+    font-size: 14px; font-weight: 600;
     cursor: pointer;
-    margin: 5px;
+    transition: background-color var(--transition-fast) ease, transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+    box-shadow: var(--shadow-sm);
+    text-align: center; line-height: 1; 
+    display: flex; align-items: center; justify-content: center;
 }
-
-.controls button:hover {
-    background-color: #005bb5;
+.app-button:hover, .control-button-sm:hover {
+    background-color: var(--accent-color-hover);
+    transform: translateY(-2px) scale(1.03); 
+    box-shadow: var(--shadow-md);
 }
+.app-button:active, .control-button-sm:active {
+    transform: translateY(0px) scale(0.97);
+    box-shadow: inset 0 1.5px 3px rgba(0,0,0,0.1); 
+}
+.control-button-sm {
+    min-width: 48px; 
+    width: 48px; height: 42px; 
+    padding: 0; 
+}
+.control-button-sm svg {
+    width: 22px; 
+    height: 22px;
+    fill: var(--icon-color); 
+    transition: transform var(--transition-fast) ease;
+}
+.control-button-sm:hover svg { transform: scale(1.12); }
 
-.instructions {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #e9e9f0;
-    border-radius: 8px;
-    color: #444;
+.app-button.primary-action { font-weight: 600; padding: 12px 20px; font-size: 15px; }
+.app-button.secondary-action { background-color: #869ab0; } /* Muted secondary */
+.app-button.secondary-action:hover { background-color: #6c7d95; }
+.app-button.full-width { width: 100%; }
+
+.modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(30,41,59,0.75); 
+    backdrop-filter: blur(10px) saturate(180%); 
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000; opacity: 0; visibility: hidden;
+    transition: opacity var(--transition-normal) var(--timing-ease), visibility 0s var(--transition-normal) ease;
+}
+.modal-overlay.visible { opacity: 1; visibility: visible; transition-delay: 0s; }
+.modal-content {
+    background-color: var(--card-background);
+    padding: 35px 45px; 
+    border-radius: var(--border-radius-card); 
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0,0,0,0.03); 
+    text-align: center;
+    max-width: 450px; width: 90%;
+    transform: translateY(30px) scale(0.95); 
+    opacity: 0;
+    transition: transform 0.38s cubic-bezier(0.34, 1.66, 0.64, 1), opacity 0.32s var(--timing-ease); /* More playful entrance */
+}
+.modal-overlay.visible .modal-content { transform: translateY(0) scale(1); opacity: 1; }
+.modal-content h2 { font-size: 28px; font-weight: 800; margin: 0 0 18px 0; letter-spacing: -0.5px; }
+.modal-content p { font-size: 17.5px; color: var(--secondary-text-color); margin-bottom: 30px; line-height: 1.7; }
+.modal-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;}
+.modal-content .app-button { min-width: 150px; padding: 12px 22px; font-size: 15px;}
+.modal-content .app-button#close-modal-button { background-color: var(--secondary-text-color); }
+.modal-content .app-button#close-modal-button:hover { background-color: #5a677d; }
+
+@media (max-width: 860px) { 
+    body { padding: 15px; }
+    .main-container { flex-direction: column; padding: 20px; gap: 20px;}
+    .cube-display-area, .controls-area { min-width: 100%; width: 100%; }
+    .controls-grid { grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 10px;}
+    .game-header h1 { font-size: 26px; }
+}
+@media (max-width: 480px) { 
+    body { padding: 10px; }
+    .main-container { padding: 15px; }
+    :root { --cube-face-size: 68px; --face-label-inner-size: 10.5px; --face-label-outer-size: 9.5px; } 
+    .game-header h1 { font-size: 22px; }
+    .game-info { font-size: 13px; gap: 12px; }
+    .settings-group label { font-size: 13px; }
+    .app-select, #seed-input { padding: 9px 10px; font-size: 13.5px; }
+    .app-button.primary-action { padding: 11px 16px; font-size: 14px; }
+    .main-controls-panel h3 { font-size: 17px; margin-bottom: 15px;}
+    .face-control-group-label { font-size: 13px; }
+    .control-button-sm { min-width: 42px; width: 42px; height: 38px; }
+    .control-button-sm svg { width: 18px; height: 18px; }
+    .modal-content { padding: 25px 30px; }
+    .modal-content h2 { font-size: 22px; }
+    .modal-content p { font-size: 15px; }
+    .modal-content .app-button { min-width: 125px; padding: 11px 18px; font-size: 14px;}
 }
