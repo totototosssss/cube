@@ -1,40 +1,94 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>スタイリッシュ ルービックキューブ (2D)</title>
+    <title>Rubik's Cube Evo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <header class="game-header">
-            <div class="score">SCORE: <span id="score-value">0</span></div>
-            <div class="turns">TURNS: <span id="turns-value">30</span></div>
-        </header>
+    <div class="main-container">
+        <div class="cube-display-area">
+            <header class="game-header">
+                <h1>Rubik's Cube Evo</h1>
+                <div class="game-info">
+                    <div class="info-item">モード: <span id="current-mode-display">6面完成</span></div>
+                    <div class="info-item">ターン: <span id="turns-count">0</span></div>
+                </div>
+            </header>
 
-        <main class="cube-area">
-            <div class="focus-face">
-                <div class="cell"></div><div class="cell"></div><div class="cell"></div>
-                <div class="cell"></div><div class="cell"></div><div class="cell"></div>
-                <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cube-area-wrapper">
+                <div class="cube-unfolded-area">
+                    <div class="face-placeholder ph-top-left"></div>
+                    <div class="face-container" data-face-key="U" id="face-container-U">
+                        <span class="face-label-outer">上面 (U)</span>
+                        <div class="face up-face" id="up-face"></div>
+                    </div>
+                    <div class="face-placeholder ph-top-right"></div>
+                    <div class="face-placeholder ph-top-far-right"></div>
+
+                    <div class="face-container" data-face-key="L" id="face-container-L">
+                        <span class="face-label-outer">左面 (L)</span>
+                        <div class="face left-face" id="left-face"></div>
+                    </div>
+                    <div class="face-container" data-face-key="F" id="face-container-F">
+                        <span class="face-label-outer">前面 (F)</span>
+                        <div class="face front-face" id="front-face"></div>
+                    </div>
+                    <div class="face-container" data-face-key="R" id="face-container-R">
+                        <span class="face-label-outer">右面 (R)</span>
+                        <div class="face right-face" id="right-face"></div>
+                    </div>
+                    <div class="face-container" data-face-key="B" id="face-container-B">
+                        <span class="face-label-outer">背面 (B)</span>
+                        <div class="face back-face" id="back-face"></div>
+                    </div>
+                    
+                    <div class="face-placeholder ph-bottom-left"></div>
+                    <div class="face-container" data-face-key="D" id="face-container-D">
+                        <span class="face-label-outer">下面 (D)</span>
+                        <div class="face down-face" id="down-face"></div>
+                    </div>
+                    <div class="face-placeholder ph-bottom-right"></div>
+                    <div class="face-placeholder ph-bottom-far-right"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-area">
+            <div class="settings-panel">
+                <div class="settings-group">
+                    <label for="game-mode-select">モード選択:</label>
+                    <select id="game-mode-select" class="app-select">
+                        <option value="6_face">6面完成</option>
+                        <option value="1_face">1面完成 (任意の色)</option>
+                    </select>
+                </div>
+                <div class="settings-group">
+                    <input type="text" id="seed-input" placeholder="シード値 (空でランダム)">
+                </div>
+                <button class="app-button primary-action full-width" id="generate-cube-button">新しい盤面で開始</button>
             </div>
 
-            <aside class="minimap-panel">
-                <div class="minimap-face" id="face-top">U</div>
-                <div class="minimap-face" id="face-left">L</div>
-                <div class="minimap-face" id="face-right">R</div>
-                <div class="minimap-face" id="face-bottom">D</div>
-                <div class="minimap-face" id="face-back">B</div>
-            </aside>
-        </main>
-
-        <footer class="controls">
-            <button>回転L</button>
-            <button>回転R</button>
-            <div class="instructions">指示: F面を時計回りに！ (+10pt)</div>
-        </footer>
+            <div class="main-controls-panel">
+                <h3>操作パネル</h3>
+                <div class="controls-grid">
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div id="clear-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-title">クリア！</h2>
+            <p id="clear-message"></p>
+            <div class="modal-actions">
+                <button class="app-button primary-action" id="new-game-from-modal-button">新しい盤面</button>
+                <button class="app-button secondary-action" id="close-modal-button">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
