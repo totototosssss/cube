@@ -1,1 +1,40 @@
 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スタイリッシュ ルービックキューブ (2D)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="score">SCORE: <span id="score-value">0</span></div>
+            <div class="turns">TURNS: <span id="turns-value">30</span></div>
+        </header>
+
+        <main class="cube-area">
+            <div class="focus-face">
+                <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+                <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+                <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            </div>
+
+            <aside class="minimap-panel">
+                <div class="minimap-face" id="face-top">U</div>
+                <div class="minimap-face" id="face-left">L</div>
+                <div class="minimap-face" id="face-right">R</div>
+                <div class="minimap-face" id="face-bottom">D</div>
+                <div class="minimap-face" id="face-back">B</div>
+            </aside>
+        </main>
+
+        <footer class="controls">
+            <button>回転L</button>
+            <button>回転R</button>
+            <div class="instructions">指示: F面を時計回りに！ (+10pt)</div>
+        </footer>
+    </div>
+</body>
+</html>
